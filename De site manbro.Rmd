@@ -1,0 +1,33 @@
+---
+title: "Muziekje"
+output: html_document
+---
+
+*Wat ziek*
+```{r}
+library(spotifyr)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+
+
+hardcore = get_playlist_audio_features('','74BvFUxnwQHAJXmmiACV0d')
+top50 = get_playlist_audio_features('', '79PP1evdXDE0F7mfYRY2wZ') 
+
+  
+x = hardcore %>% mutate(category = 'hardcore')
+y = top50 %>% mutate(category = 'top50')
+
+combi <- bind_rows(x,y)
+```
+
+```{r}
+combi_energy <- ggplot(
+  combi, aes(fill = category))+
+  geom_violin (aes(category, tempo)) +
+  ggtitle('Energie: hardcore vs top 50 muziek')
+
+combi_energy
+
+```
+
